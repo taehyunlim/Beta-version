@@ -10,6 +10,8 @@ import CardExampleWithAvatar from './course-item'
 import BottomNavigationExampleSimple from './bottom-nav'
 import AutoCompleteExampleSimple from './search-bar'
 import Logo from './logo.js'
+import LandingPage from './LandingPage'
+import LogIn from './LogIn';
 
 injectTapEventPlugin();
 
@@ -18,7 +20,11 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div>
-          <AppBarExampleIcon />
+        <LandingPage />
+        <div>
+            <AppBarExampleIcon />
+            <LogIn />
+        </div>
           <Logo />
           <AutoCompleteExampleSimple />
           <CardExampleWithAvatar />
@@ -30,5 +36,7 @@ class App extends Component {
     );
   }
 }
+
+
 
 export default App;
