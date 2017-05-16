@@ -21,9 +21,29 @@ module.exports = function(sequelize, DataTypes) {
         len: [1, 40]
       }
     },
-    date: {
+    date_created: {
       type: DataTypes.DATE
     }
-  });
+  },
+  {
+    // CREATE ASSOCIATIONS BETWEEN USERS & COURSES & REVIEWS & PROGRESSES
+    classMethods: {
+      associate: function(models) {
+        // USERS hasMany COURSES; COURSES belongsTo USERS
+        User.hasMany(models.Course, {
+          onDelete: "cascade"
+        });
+        // USERS hasMany REVIEWS; REVIEWS belongsTo USERS
+        User.hasMany(models.Review, {
+          onDelete: "cascade"
+        });
+        // USERS hasMany PROGRESSES; PROGRESSES belongsTo USERS
+        User.hasMany(models.Progress, {
+          onDelete: "cascade"
+        });
+      }
+    }
+  }
+  );
   return User;
 };
