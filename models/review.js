@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
           }
         });
         // REVIEWS belongsTo USERS; USERS hasMany REVIEWS
-        Review.belongsTo(models.Course, {
+        Review.belongsTo(models.User, {
           foreignKey: {
             allowNull: false
           }

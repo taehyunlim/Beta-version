@@ -25,7 +25,9 @@ VALUES ("Javascript30", "JS", "Javascript for 30 Days", "https://javascript30.co
 
 /* SAMPLE DATA FOR REVIEWS TABLE */
 INSERT INTO Reviews (review_title, review_text, createdAt, updatedAt, CourseId, UserId)
-VALUES ("Best JS course out there!", "This is the review text", current_timestamp, current_timestamp, 1, 1),
+VALUES 
+("Review Title", "This is the review text 2", current_timestamp, current_timestamp, 1, 3),
+("Best JS course out there!", "This is the review text", current_timestamp, current_timestamp, 1, 1),
 ("Best Node course out there!", "This is the review text", current_timestamp, current_timestamp, 2, 1);
 
 /* SAMPLE DATA FOR PROGRESSES TABLE */
