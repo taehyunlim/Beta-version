@@ -60,7 +60,7 @@ module.exports = function(app) {
     });
   });
 
-  // GET COURSES
+  // GET COURSE(S)
   app.get("/api/courses/:courseId?", function(req, res) {
     // WHEN courseId PARAMETER IS PRESENT, SPECIFY WHERE CONDITION FIRST
     const where = {};
@@ -129,10 +129,16 @@ module.exports = function(app) {
   });
 
   // GET ALL REVIEWS
-  app.get("/api/reviews/", function(req, res) {
+  app.get("/api/reviews/:courseId?", function(req, res) {
+    // WHEN courseId PARAMETER IS PRESENT, SPECIFY WHERE CONDITION FIRST
+    const where = {};
+    if (req.params.courseId) {
+      where.id = req.params.courseId;
+    }
     // START WITH COURSE
     // COURSE hasMany REVIEW; REVIEW belongsTo USER
     db.Course.findAll({
+      where,
       include: [
         {
           model: db.Review,
@@ -234,6 +240,85 @@ module.exports = function(app) {
       res.json(data);
     });
   });
+
+  // POST A REVIEW
+  app.post("/api/reviews/post/", function(req, res) {
+    console.log(req.body);
+    db.Review.create({
+      review_title: req.body.reviewTitle,
+      review_text: req.body.reviewText,
+      CourseId: req.body.courseId,
+      UserId: req.body.userId
+    })
+    .then(function(data) {
+      //res.json(data);
+      redirect("/");
+    })
+  });
+
+  // UPDATE A PROGRESS
+  app.put("/api/progress/update/", function(req, res) {
+    console.log(req.body);
+    // CHECK IF THE USER ALREADY COMPLETED THE COURSE - UPDATE FRONTEND 
+    if (req.body.complete) {
+      return alert("already completed course!");
+    } else if (req.body.progress = req.body.courseLength) {
+      db.Progress.update(
+        {
+          current_progress: req.body.progress + 1,
+          completed: 1
+        },
+        {
+          where: {
+            id: req.params.progressId
+          }
+        })
+      .then(function(data){
+        //res.json(data);
+        redirect("/");
+      })
+    } else {
+      db.Progress.update(
+        {
+          current_progress: req.body.progress + 1,
+        },
+        {
+          where: {
+            id: req.params.progressId
+          }
+        })
+      .then(function(data) {
+        //res.json(data);
+        redirect("/");
+      })
+    }
+  });
+
+//   // DELETE route for deleting posts
+//   app.delete("/api/posts/:id", function(req, res) {
+//     db.User.destroy({
+//       where: {
+//         id: req.params.id
+//       }
+//     })
+//     .then(function(data) {
+//       res.json(data);
+//     });
+//   });
+
+//   // PUT route for updating posts
+//   app.put("/api/posts", function(req, res) {
+//     db.User.update(req.body,
+//       {
+//         where: {
+//           id: req.body.id
+//         }
+//       })
+//     .then(function(data) {
+//       res.json(data);
+//     });
+//   });
+
 
   // // POST route for saving a new post
   // app.post("/api/posts", function(req, res) {
